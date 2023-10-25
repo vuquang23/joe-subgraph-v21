@@ -3,8 +3,6 @@ import { LBPair as LBPairABI } from "../../generated/LBFactory/LBPair";
 import { LBPair } from "../../generated/schema";
 import {
   BIG_DECIMAL_1E10,
-  BIG_DECIMAL_1E18,
-  BIG_DECIMAL_HUNDRED,
   BIG_DECIMAL_ZERO,
   BIG_INT_ZERO,
   LBFACTORY_ADDRESS,
