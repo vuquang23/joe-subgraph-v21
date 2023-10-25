@@ -15,7 +15,6 @@ export function loadLBFactory(id: Address = LBFACTORY_ADDRESS): LBFactory {
   if (!lbFactory) {
     lbFactory = new LBFactory(id.toHexString());
     lbFactory.pairCount = BIG_INT_ZERO;
-    lbFactory.txCount = BIG_INT_ZERO;
     lbFactory.tokenCount = BIG_INT_ZERO;
 
     lbFactory.save();

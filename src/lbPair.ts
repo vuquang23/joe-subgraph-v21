@@ -95,7 +95,6 @@ export function handleSwap(event: SwapEvent): void {
   lbPair.save();
 
   // LBFactory
-  lbFactory.txCount = lbFactory.txCount.plus(BIG_INT_ONE);
   lbFactory.save();
 
   // TokenX
@@ -213,7 +212,6 @@ export function handleLiquidityAdded(event: DepositedToBins): void {
   lbPair.save();
 
   // LBFactory
-  lbFactory.txCount = lbFactory.txCount.plus(BIG_INT_ONE);
   lbFactory.save();
 
   // TokenX
@@ -275,7 +273,6 @@ export function handleLiquidityRemoved(event: WithdrawnFromBins): void {
   lbPair.save();
 
   // LBFactory
-  lbFactory.txCount = lbFactory.txCount.plus(BIG_INT_ONE);
   lbFactory.save();
 
   // TokenX
@@ -292,11 +289,9 @@ export function handleTransferBatch(event: TransferBatch): void {
   if (!lbPair) {
     return;
   }
-
   lbPair.save();
 
   const lbFactory = loadLBFactory();
-  lbFactory.txCount = lbFactory.txCount.plus(BIG_INT_ONE);
   lbFactory.save();
 
   for (let i = 0; i < event.params.amounts.length; i++) {
