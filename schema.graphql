@@ -76,7 +76,7 @@ type LBPair @entity {
 }
 
 type Bin @entity {
-  id: ID! # lbPair address + # + binId
+  id: ID!
   lbPair: LBPair!
 
   totalSupply: BigInt!
@@ -84,4 +84,21 @@ type Bin @entity {
   reserveY: BigDecimal!
 
   binId: BigInt!
+}
+
+type Trace @entity {
+  id: ID!
+
+  txHash: Bytes!
+
+  binId: BigInt!
+
+  amountXIn: BigDecimal!
+  amountXOut: BigDecimal!
+
+  amountYIn: BigDecimal!
+  amountYOut: BigDecimal!
+
+  minted: BigInt!
+  burned: BigInt!
 }

@@ -19,6 +19,7 @@ import {
   loadLBFactory,
   loadLbPair,
   loadToken,
+  loadTrace,
   trackBin,
 } from "./entities";
 import {
@@ -108,6 +109,17 @@ export function handleSwap(event: SwapEvent): void {
   // TokenY
   tokenY.txCount = tokenY.txCount.plus(BIG_INT_ONE);
   tokenY.save();
+
+  // Trace
+  const trace = loadTrace(event.transaction.hash, event.logIndex, 0);
+  trace.binId = BigInt.fromI32(event.params.id);
+  trace.amountXIn = amountXIn;
+  trace.amountXOut = amountXOut;
+  trace.amountYIn = amountYIn;
+  trace.amountYOut = amountYOut;
+  trace.minted = BIG_INT_ZERO;
+  trace.burned = BIG_INT_ZERO;
+  trace.save();
 }
 
 export function handleCompositionFee(event: CompositionFees): void {
@@ -139,6 +151,16 @@ export function handleCompositionFee(event: CompositionFees): void {
     BIG_INT_ZERO,
     BIG_INT_ZERO
   );
+
+  const trace = loadTrace(event.transaction.hash, event.logIndex, 0);
+  trace.binId = BigInt.fromI32(event.params.id);
+  trace.amountXIn = BIG_DECIMAL_ZERO;
+  trace.amountXOut = protocolCFeesX;
+  trace.amountYIn = BIG_DECIMAL_ZERO;
+  trace.amountYOut = protocolCFeesY;
+  trace.minted = BIG_INT_ZERO;
+  trace.burned = BIG_INT_ZERO;
+  trace.save();
 }
 
 export function handleLiquidityAdded(event: DepositedToBins): void {
@@ -179,8 +201,17 @@ export function handleLiquidityAdded(event: DepositedToBins): void {
       BIG_INT_ZERO,
       BIG_INT_ZERO
     );
-  }
 
+    const trace = loadTrace(event.transaction.hash, event.logIndex, i);
+    trace.binId = binId;
+    trace.amountXIn = amountX;
+    trace.amountXOut = BIG_DECIMAL_ZERO;
+    trace.amountYIn = amountY;
+    trace.amountYOut = BIG_DECIMAL_ZERO;
+    trace.minted = BIG_INT_ZERO;
+    trace.burned = BIG_INT_ZERO;
+    trace.save();
+  }
 
   // LBPair
   lbPair.txCount = lbPair.txCount.plus(BIG_INT_ONE);
@@ -230,12 +261,22 @@ export function handleLiquidityRemoved(event: WithdrawnFromBins): void {
       lbPair,
       binId,
       BIG_DECIMAL_ZERO,
-      amountX, // amountXIn
+      amountX, // amountXOut
       BIG_DECIMAL_ZERO,
-      amountY, // amountYIn
+      amountY, // amountYOut
       BIG_INT_ZERO,
       BIG_INT_ZERO
     );
+
+    const trace = loadTrace(event.transaction.hash, event.logIndex, i);
+    trace.binId = binId;
+    trace.amountXIn = BIG_DECIMAL_ZERO;
+    trace.amountXOut = amountX;
+    trace.amountYIn = BIG_DECIMAL_ZERO;
+    trace.amountYOut = amountY;
+    trace.minted = BIG_INT_ZERO;
+    trace.burned = BIG_INT_ZERO;
+    trace.save();
   }
 
   // LBPair
@@ -286,6 +327,16 @@ export function handleTransferBatch(event: TransferBatch): void {
         event.params.amounts[i], // minted
         BIG_INT_ZERO
       );
+
+      const trace = loadTrace(event.transaction.hash, event.logIndex, i);
+      trace.binId = event.params.ids[i];
+      trace.amountXIn = BIG_DECIMAL_ZERO;
+      trace.amountXOut = BIG_DECIMAL_ZERO;
+      trace.amountYIn = BIG_DECIMAL_ZERO;
+      trace.amountYOut = BIG_DECIMAL_ZERO;
+      trace.minted = event.params.amounts[i];
+      trace.burned = BIG_INT_ZERO;
+      trace.save();
     }
 
     // burn: decrease bin totalSupply
@@ -300,6 +351,16 @@ export function handleTransferBatch(event: TransferBatch): void {
         BIG_INT_ZERO,
         event.params.amounts[i] // burned
       );
+
+      const trace = loadTrace(event.transaction.hash, event.logIndex, i);
+      trace.binId = event.params.ids[i];
+      trace.amountXIn = BIG_DECIMAL_ZERO;
+      trace.amountXOut = BIG_DECIMAL_ZERO;
+      trace.amountYIn = BIG_DECIMAL_ZERO;
+      trace.amountYOut = BIG_DECIMAL_ZERO;
+      trace.minted = BIG_INT_ZERO;
+      trace.burned = event.params.amounts[i];
+      trace.save();
     }
   }
 }
