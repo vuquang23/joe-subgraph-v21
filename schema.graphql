@@ -1,52 +1,15 @@
-type Bundle @entity {
-  id: ID!
-
-  # price of AVAX usd
-  avaxPriceUSD: BigDecimal!
-}
-
 type LBFactory @entity {
   # Contract address
   id: ID!
 
-  # Fee recipient
-  feeRecipient: Bytes!
-
   # Pair count
   pairCount: BigInt!
-
-  # Volume USD
-  volumeUSD: BigDecimal!
-
-  # Volume AVAX
-  volumeAVAX: BigDecimal!
-
-  # Untracked volume
-  untrackedVolumeUSD: BigDecimal!
-
-  # tvl USD
-  totalValueLockedUSD: BigDecimal!
-
-  # tvl AVAX
-  totalValueLockedAVAX: BigDecimal!
 
   # Transaction count
   txCount: BigInt!
 
   # Token count
   tokenCount: BigInt!
-
-  # User count
-  userCount: BigInt!
-
-  # flashloan fee
-  flashloanFee: BigInt!
-
-  # pairs not used in trade routing
-  ignoredLbPairs: [LBPair!]!
-
-  feesUSD: BigDecimal!
-  feesAVAX: BigDecimal!
 
   # Pairs
   lbPairs: [LBPair!]! @derivedFrom(field: "factory")
@@ -70,21 +33,8 @@ type Token @entity {
   # used for other stats like marketcap
   totalSupply: BigInt!
 
-  # token specific volume
-  volume: BigDecimal!
-  volumeUSD: BigDecimal!
-  untrackedVolumeUSD: BigDecimal!
-
   # transactions across all pairs
   txCount: BigInt!
-
-  # TVL across all pairs
-  totalValueLocked: BigDecimal!
-  totalValueLockedUSD: BigDecimal!
-
-  derivedAVAX: BigDecimal!
-
-  feesUSD: BigDecimal!
 
   # Base pairs
   basePairs: [LBPair!]! @derivedFrom(field: "tokenX")
@@ -103,48 +53,22 @@ type LBPair @entity {
   # Name
   name: String!
 
-  # Base Fee
-  baseFeePct: BigDecimal!
-
   # mirrored from the smart contract
   tokenX: Token!
   tokenY: Token!
+
   binStep: BigInt!
   activeId: BigInt!
 
+  # Reserves
   reserveX: BigDecimal!
   reserveY: BigDecimal!
 
-  # tvl
-  totalValueLockedAVAX: BigDecimal!
-  totalValueLockedUSD: BigDecimal!
-
-  # Price in terms of the asset pair
-  tokenXPrice: BigDecimal!
-  tokenYPrice: BigDecimal!
-
-  # Price in terms of USDC
-  tokenXPriceUSD: BigDecimal!
-  tokenYPriceUSD: BigDecimal!
-
-  # lifetime volume stats
-  volumeTokenX: BigDecimal!
-  volumeTokenY: BigDecimal!
-  volumeUSD: BigDecimal!
-  untrackedVolumeUSD: BigDecimal!
-  txCount: BigInt!
-  feesTokenX: BigDecimal!
-  feesTokenY: BigDecimal!
-  feesUSD: BigDecimal! # swap fees
-  # Fields used to help derived relationship
-  # used to detect new exchanges
   liquidityProviderCount: BigInt!
 
-  bins: [Bin!]! @derivedFrom(field: "lbPair")
+  txCount: BigInt!
 
-  # Transactions
-  swaps: [Swap!]! @derivedFrom(field: "lbPair")
-  transfers: [Transfer!]! @derivedFrom(field: "lbPair")
+  bins: [Bin!]! @derivedFrom(field: "lbPair")
 
   # Created at
   timestamp: BigInt!
@@ -155,76 +79,9 @@ type Bin @entity {
   id: ID! # lbPair address + # + binId
   lbPair: LBPair!
 
-  priceX: BigDecimal!
-  priceY: BigDecimal!
-
   totalSupply: BigInt!
   reserveX: BigDecimal!
   reserveY: BigDecimal!
 
   binId: BigInt!
-}
-
-type Transaction @entity {
-  # transaction hash
-  id: ID!
-
-  # block info
-  blockNumber: Int!
-  timestamp: Int!
-
-  swaps: [Swap!]! @derivedFrom(field: "transaction")
-  transfers: [Transfer!]! @derivedFrom(field: "transaction")
-}
-
-type Swap @entity {
-  # transaction hash + "#" + index in swaps Transaction array
-  id: ID!
-  transaction: Transaction!
-  timestamp: Int! # need this to pull recent txns for specific token or pair
-  # pair
-  lbPair: LBPair!
-
-  # populated from the Swap event
-  sender: Bytes!
-  recipient: Bytes!
-  origin: Bytes!
-  activeId: BigInt!
-
-  amountXIn: BigDecimal!
-  amountYIn: BigDecimal!
-  amountXOut: BigDecimal!
-  amountYOut: BigDecimal!
-  amountUSD: BigDecimal!
-
-  feesTokenX: BigDecimal!
-  feesTokenY: BigDecimal!
-  feesUSD: BigDecimal!
-
-  logIndex: BigInt!
-}
-
-# indexes both TransferSingle and TransferBatch events
-type Transfer @entity {
-  # transaction hash + "#" + index in transfer Transaction array + "#" + (optional: TransferBatch index)
-  id: ID!
-  transaction: Transaction!
-  timestamp: Int!
-
-  isBatch: Boolean!
-  batchIndex: Int # optional only for TransferBatch event
-  isMint: Boolean!
-  isBurn: Boolean!
-
-  lbPair: LBPair!
-
-  binId: BigInt!
-  amount: BigInt!
-
-  sender: Bytes!
-  from: Bytes!
-  to: Bytes!
-
-  origin: Bytes!
-  logIndex: BigInt!
 }

@@ -1,8 +1,6 @@
 import { BigDecimal, BigInt, Bytes } from "@graphprotocol/graph-ts";
 import { BIG_DECIMAL_ZERO, BIG_INT_ONE, BIG_INT_ZERO } from "../constants";
 
-export * from "./pricing";
-
 export function formatDecimalsToExponent(decimals: BigInt): BigDecimal {
   let bd = BigDecimal.fromString("1");
   for (let i = BIG_INT_ZERO; i.lt(decimals); i = i.plus(BIG_INT_ONE)) {

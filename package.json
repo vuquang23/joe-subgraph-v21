@@ -36,6 +36,7 @@
   "dependencies": {
     "@graphprotocol/graph-cli": "0.60.0",
     "@graphprotocol/graph-ts": "0.31.0",
+    "matchstick-as": "^0.6.0",
     "mustache": "^4.2.0"
   },
   "repository": "https://github.com/traderjoe-xyz/joe-subgraph-v2.git",

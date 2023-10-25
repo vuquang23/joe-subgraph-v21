@@ -74,24 +74,10 @@ export function createLBPair(
   lbPair.tokenY = tokenYCall.value.toHexString();
   lbPair.binStep = binStep;
   lbPair.activeId = activeId;
-  lbPair.baseFeePct = baseFee.div(BIG_DECIMAL_1E18).times(BIG_DECIMAL_HUNDRED);
 
   lbPair.reserveX = BIG_DECIMAL_ZERO;
   lbPair.reserveY = BIG_DECIMAL_ZERO;
-  lbPair.totalValueLockedAVAX = BIG_DECIMAL_ZERO;
-  lbPair.totalValueLockedUSD = BIG_DECIMAL_ZERO;
-  lbPair.tokenXPrice = BIG_DECIMAL_ZERO;
-  lbPair.tokenYPrice = BIG_DECIMAL_ZERO;
-  lbPair.tokenXPriceUSD = BIG_DECIMAL_ZERO;
-  lbPair.tokenYPriceUSD = BIG_DECIMAL_ZERO;
-  lbPair.volumeTokenX = BIG_DECIMAL_ZERO;
-  lbPair.volumeTokenY = BIG_DECIMAL_ZERO;
-  lbPair.volumeUSD = BIG_DECIMAL_ZERO;
-  lbPair.untrackedVolumeUSD = BIG_DECIMAL_ZERO;
   lbPair.txCount = BIG_INT_ZERO;
-  lbPair.feesTokenX = BIG_DECIMAL_ZERO;
-  lbPair.feesTokenY = BIG_DECIMAL_ZERO;
-  lbPair.feesUSD = BIG_DECIMAL_ZERO;
   lbPair.liquidityProviderCount = BIG_INT_ZERO;
 
   lbPair.timestamp = block.timestamp;
