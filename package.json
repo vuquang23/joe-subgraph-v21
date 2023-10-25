@@ -24,7 +24,7 @@
     "deploy:avax": "graph deploy --node https://api.thegraph.com/deploy/ traderjoe-xyz/joe-v2 subgraph.avax.yaml",
     "deploy:fuji": "graph deploy --node https://api.thegraph.com/deploy/ traderjoe-xyz/joe-v2-fuji subgraph.fuji.yaml",
     "deploy:arbgoerli": "graph deploy --node https://api.thegraph.com/deploy/ traderjoe-xyz/joe-v2-arb-goerli subgraph.arbgoerli.yaml",
-    "deploy:arbitrum": "graph deploy --node https://api.thegraph.com/deploy/ traderjoe-xyz/joe-v2-arbitrum subgraph.arbitrum.yaml",
+    "deploy:arbitrum": "graph deploy --node https://api.thegraph.com/deploy/ vuquang23/traderjoe-v21-arbitrum subgraph.arbitrum.yaml",
     "deploy:staging": "graph deploy --node https://api.thegraph.com/deploy/ traderjoe-xyz/joe-v2-staging subgraph.arbitrum.yaml",
     "deploy:bsc": "graph deploy --node https://api.thegraph.com/deploy/ traderjoe-xyz/joe-v2-bnb subgraph.bsc.yaml",
     "deploy:chapel": "graph deploy --node https://api.thegraph.com/deploy/ traderjoe-xyz/joe-v2-bnbtest subgraph.chapel.yaml",

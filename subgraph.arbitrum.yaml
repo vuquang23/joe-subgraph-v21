@@ -52,22 +52,12 @@ dataSources:
         - Bundle
         - Bin
         - LBFactory
-        - HourData
-        - DayData
         - LBPair
-        - LBPairHourData
-        - LBPairDayData
         - Token
-        - TokenHourData
-        - TokenDayData
-        - User
-        - LiquidityPosition
-        - UserBinLiquidity
         - Transaction
         - Mint
         - Burn
         - Swap
-        - Candle
       abis:
         - name: LBFactory
           file: ./abis/LBFactory.json
