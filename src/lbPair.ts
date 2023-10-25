@@ -135,7 +135,7 @@ export function handleLiquidityAdded(event: DepositedToBins): void {
     const amountY = formatTokenAmountByDecimals(amounts[1], tokenY.decimals);
 
     totalAmountX = totalAmountX.plus(amountX);
-    totalAmountX = totalAmountY.plus(amountY);
+    totalAmountY = totalAmountY.plus(amountY);
 
     trackBin(
       lbPair,
@@ -192,7 +192,7 @@ export function handleLiquidityRemoved(event: WithdrawnFromBins): void {
     const amountY = formatTokenAmountByDecimals(amounts[1], tokenY.decimals);
 
     totalAmountX = totalAmountX.plus(amountX);
-    totalAmountX = totalAmountY.plus(amountY);
+    totalAmountY = totalAmountY.plus(amountY);
 
     trackBin(
       lbPair,

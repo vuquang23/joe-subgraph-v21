@@ -25,6 +25,7 @@ export function loadToken(address: Address): Token {
     token.name = getName(address);
     token.decimals = getDecimals(address);
     token.totalSupply = getTotalSupply(address);
+    token.txCount = BIG_INT_ZERO;
 
     token.save();
   }

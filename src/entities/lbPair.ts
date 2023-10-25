@@ -75,8 +75,8 @@ export function createLBPair(
 
   lbPair.reserveX = BIG_DECIMAL_ZERO;
   lbPair.reserveY = BIG_DECIMAL_ZERO;
-  lbPair.txCount = BIG_INT_ZERO;
   lbPair.liquidityProviderCount = BIG_INT_ZERO;
+  lbPair.txCount = BIG_INT_ZERO;
 
   lbPair.timestamp = block.timestamp;
   lbPair.block = block.number;
