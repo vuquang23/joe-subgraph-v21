@@ -1,5 +1,6 @@
 import { Address, BigDecimal, BigInt, log } from "@graphprotocol/graph-ts";
 import {
+  CompositionFees,
   DepositedToBins,
   Swap as SwapEvent,
   TransferBatch,
@@ -107,6 +108,46 @@ export function handleSwap(event: SwapEvent): void {
   // TokenY
   tokenY.txCount = tokenY.txCount.plus(BIG_INT_ONE);
   tokenY.save();
+}
+
+export function handleCompositionFee(event: CompositionFees): void {
+  const lbPair = loadLbPair(event.address);
+  if (!lbPair) {
+    return;
+  }
+
+  const tokenX = loadToken(Address.fromString(lbPair.tokenX));
+  const tokenY = loadToken(Address.fromString(lbPair.tokenY));
+
+  if (!lbPair.activeId.equals(BigInt.fromI32(event.params.id))) {
+    return;
+  }
+
+  const feesBigInt = BigInt.fromUnsignedBytes(event.params.totalFees);
+  if (feesBigInt.equals(BIG_INT_ZERO)) {
+    return;
+  }
+
+  const protocolCFees = decodeAmounts(event.params.protocolFees);
+  const protocolCFeesX = formatTokenAmountByDecimals(
+    protocolCFees[0],
+    tokenX.decimals
+  );
+  const protocolCFeesY = formatTokenAmountByDecimals(
+    protocolCFees[1],
+    tokenY.decimals
+  );
+
+  trackBin(
+    lbPair,
+    BigInt.fromI32(event.params.id),
+    BIG_DECIMAL_ZERO,
+    protocolCFeesX,
+    BIG_DECIMAL_ZERO,
+    protocolCFeesY,
+    BIG_INT_ZERO,
+    BIG_INT_ZERO
+  );
 }
 
 export function handleLiquidityAdded(event: DepositedToBins): void {
