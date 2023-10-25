@@ -119,15 +119,6 @@ export function handleCompositionFee(event: CompositionFees): void {
   const tokenX = loadToken(Address.fromString(lbPair.tokenX));
   const tokenY = loadToken(Address.fromString(lbPair.tokenY));
 
-  if (!lbPair.activeId.equals(BigInt.fromI32(event.params.id))) {
-    return;
-  }
-
-  const feesBigInt = BigInt.fromUnsignedBytes(event.params.totalFees);
-  if (feesBigInt.equals(BIG_INT_ZERO)) {
-    return;
-  }
-
   const protocolCFees = decodeAmounts(event.params.protocolFees);
   const protocolCFeesX = formatTokenAmountByDecimals(
     protocolCFees[0],
