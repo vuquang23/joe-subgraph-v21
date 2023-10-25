@@ -1,9 +1,8 @@
 import { LBPairCreated, } from "../generated/LBFactory/LBFactory";
 import { BIG_INT_ONE } from "./constants";
-import { createLBPair, loadBundle, loadLBFactory } from "./entities";
+import { createLBPair, loadLBFactory } from "./entities";
 
 export function handleLBPairCreated(event: LBPairCreated): void {
-  loadBundle();
   const lbPair = createLBPair(event.params.LBPair, event.block);
 
   if (!lbPair) {
