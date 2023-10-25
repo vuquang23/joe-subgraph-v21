@@ -48,8 +48,9 @@ export function isSwapForY(
 }
 
 export function decodeAmounts(amounts: Bytes): Array<BigInt> {
-  amounts.reverse();
-  const amountsBigInt = BigInt.fromUnsignedBytes(amounts);
+  const t = Bytes.fromHexString(amounts.toHexString());
+  t.reverse();
+  const amountsBigInt = BigInt.fromUnsignedBytes(t);
 
   // Read the right 128 bits of the 256 bits
   const amountsX = amountsBigInt.bitAnd(

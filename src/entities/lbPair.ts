@@ -70,13 +70,6 @@ export function createLBPair(
     .concat(binStep.toString());
   lbPair.tokenX = tokenXCall.value.toHexString();
   lbPair.tokenY = tokenYCall.value.toHexString();
-  lbPair.binStep = binStep;
-  lbPair.activeId = activeId;
-
-  lbPair.reserveX = BIG_DECIMAL_ZERO;
-  lbPair.reserveY = BIG_DECIMAL_ZERO;
-  lbPair.liquidityProviderCount = BIG_INT_ZERO;
-  lbPair.txCount = BIG_INT_ZERO;
 
   lbPair.timestamp = block.timestamp;
   lbPair.block = block.number;

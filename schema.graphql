@@ -1,76 +1,47 @@
 type LBFactory @entity {
-  # Contract address
   id: ID!
 
-  # Pair count
   pairCount: BigInt!
 
-  # Transaction count
   txCount: BigInt!
 
-  # Token count
   tokenCount: BigInt!
 
-  # Pairs
   lbPairs: [LBPair!]! @derivedFrom(field: "factory")
 
-  # Tokens
   tokens: [Token!]! @derivedFrom(field: "factory")
 }
 
 type Token @entity {
-  # token address
   id: ID!
 
-  # factory
   factory: LBFactory!
 
-  # mirrored from the smart contract
   symbol: String!
   name: String!
   decimals: BigInt!
 
-  # used for other stats like marketcap
   totalSupply: BigInt!
 
-  # transactions across all pairs
   txCount: BigInt!
 
-  # Base pairs
   basePairs: [LBPair!]! @derivedFrom(field: "tokenX")
 
-  # Quote pairs
   quotePairs: [LBPair!]! @derivedFrom(field: "tokenY")
 }
 
 type LBPair @entity {
-  # Contract address
   id: ID!
 
-  # Factory
   factory: LBFactory!
 
-  # Name
   name: String!
 
-  # mirrored from the smart contract
   tokenX: Token!
   tokenY: Token!
 
-  binStep: BigInt!
-  activeId: BigInt!
-
-  # Reserves
-  reserveX: BigDecimal!
-  reserveY: BigDecimal!
-
-  liquidityProviderCount: BigInt!
-
-  txCount: BigInt!
-
   bins: [Bin!]! @derivedFrom(field: "lbPair")
 
-  # Created at
   timestamp: BigInt!
   block: BigInt!
 }
@@ -79,11 +50,11 @@ type Bin @entity {
   id: ID!
   lbPair: LBPair!
 
+  binId: BigInt!
+
   totalSupply: BigInt!
   reserveX: BigDecimal!
   reserveY: BigDecimal!
-
-  binId: BigInt!
 }
 
 type Trace @entity {

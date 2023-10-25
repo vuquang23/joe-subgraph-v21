@@ -92,10 +92,6 @@ export function handleSwap(event: SwapEvent): void {
   );
 
   // LBPair
-  lbPair.activeId = BigInt.fromI32(event.params.id);
-  lbPair.txCount = lbPair.txCount.plus(BIG_INT_ONE);
-  lbPair.reserveX = lbPair.reserveX.plus(amountXIn).minus(amountXOut);
-  lbPair.reserveY = lbPair.reserveY.plus(amountYIn).minus(amountYOut);
   lbPair.save();
 
   // LBFactory
@@ -214,10 +210,6 @@ export function handleLiquidityAdded(event: DepositedToBins): void {
   }
 
   // LBPair
-  lbPair.txCount = lbPair.txCount.plus(BIG_INT_ONE);
-  lbPair.reserveX = lbPair.reserveX.plus(totalAmountX);
-  lbPair.reserveY = lbPair.reserveY.plus(totalAmountY);
-
   lbPair.save();
 
   // LBFactory
@@ -280,9 +272,6 @@ export function handleLiquidityRemoved(event: WithdrawnFromBins): void {
   }
 
   // LBPair
-  lbPair.txCount = lbPair.txCount.plus(BIG_INT_ONE);
-  lbPair.reserveX = lbPair.reserveX.minus(totalAmountX);
-  lbPair.reserveY = lbPair.reserveY.minus(totalAmountY);
   lbPair.save();
 
   // LBFactory
@@ -304,7 +293,6 @@ export function handleTransferBatch(event: TransferBatch): void {
     return;
   }
 
-  lbPair.txCount = lbPair.txCount.plus(BIG_INT_ONE);
   lbPair.save();
 
   const lbFactory = loadLBFactory();
