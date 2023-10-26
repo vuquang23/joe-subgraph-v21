@@ -113,11 +113,7 @@ export function handleSwap(event: SwapEvent): void {
   tokenY.save();
 
   // Trace
-  const trace = loadTrace(
-    event.transaction.hash, 
-    event.logIndex, 
-    0, 
-  );
+  const trace = loadTrace(event.transaction.hash, event.logIndex, 0);
   trace.type = TRACE_TYPE_SWAP;
   trace.lbPair = lbPair.id;
   trace.binId = BigInt.fromI32(event.params.id);
@@ -160,11 +156,7 @@ export function handleCompositionFee(event: CompositionFees): void {
     BIG_INT_ZERO
   );
 
-  const trace = loadTrace(
-    event.transaction.hash, 
-    event.logIndex, 
-    0
-  );
+  const trace = loadTrace(event.transaction.hash, event.logIndex, 0);
   trace.type = TRACE_TYPE_COMPOSITION_FEE;
   trace.lbPair = lbPair.id;
   trace.binId = BigInt.fromI32(event.params.id);
@@ -216,11 +208,7 @@ export function handleLiquidityAdded(event: DepositedToBins): void {
       BIG_INT_ZERO
     );
 
-    const trace = loadTrace(
-      event.transaction.hash, 
-      event.logIndex, 
-      i, 
-    );
+    const trace = loadTrace(event.transaction.hash, event.logIndex, i);
     trace.type = TRACE_TYPE_LIQUIDITY_ADDED;
     trace.lbPair = lbPair.id;
     trace.binId = binId;
@@ -283,11 +271,7 @@ export function handleLiquidityRemoved(event: WithdrawnFromBins): void {
       BIG_INT_ZERO
     );
 
-    const trace = loadTrace(
-      event.transaction.hash, 
-      event.logIndex, 
-      i
-    );
+    const trace = loadTrace(event.transaction.hash, event.logIndex, i);
     trace.type = TRACE_TYPE_LIQUIDITY_REMOVED;
     trace.lbPair = lbPair.id;
     trace.binId = binId;
@@ -342,11 +326,7 @@ export function handleTransferBatch(event: TransferBatch): void {
         BIG_INT_ZERO
       );
 
-      const trace = loadTrace(
-        event.transaction.hash, 
-        event.logIndex, 
-        i
-      );
+      const trace = loadTrace(event.transaction.hash, event.logIndex, i);
       trace.type = TRACE_TYPE_TRANSFER_BATCH;
       trace.lbPair = lbPair.id;
       trace.binId = event.params.ids[i];
@@ -372,11 +352,7 @@ export function handleTransferBatch(event: TransferBatch): void {
         event.params.amounts[i] // burned
       );
 
-      const trace = loadTrace(
-        event.transaction.hash, 
-        event.logIndex, 
-        i
-      );
+      const trace = loadTrace(event.transaction.hash, event.logIndex, i);
       trace.type = TRACE_TYPE_TRANSFER_BATCH;
       trace.lbPair = lbPair.id;
       trace.binId = event.params.ids[i];
@@ -423,11 +399,7 @@ export function handleFlashLoan(event: FlashLoan): void {
     BIG_INT_ZERO
   );
 
-  const trace = loadTrace(
-    event.transaction.hash, 
-    event.logIndex, 
-    0
-  );
+  const trace = loadTrace(event.transaction.hash, event.logIndex, 0);
   trace.type = TRACE_TYPE_FLASHLOAN;
   trace.lbPair = lbPair.id;
   trace.binId = activeIdBI;
