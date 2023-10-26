@@ -1,4 +1,4 @@
-import { Address, BigInt, BigDecimal } from "@graphprotocol/graph-ts";
+import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 
 export const ADDRESS_ZERO = Address.fromString(
   "0x0000000000000000000000000000000000000000"
@@ -19,8 +19,15 @@ export const NULL_CALL_RESULT_VALUE =
 
 export const LBFACTORY_ADDRESS = Address.fromString('0x8e42f2F4101563bF679975178e880FD87d3eFd4e');
 
-export const JOE_DEX_LENS_ADDRESS = Address.fromString('0xf450749aeA1c5feF27Ae0237C56FecC43f6bE244');
+export const JOE_DEX_LENS_ADDRESS = Address.fromString('0x16978e42a9b14A19878161A7EdE255637ce361e0');
 
 export const JOE_DEX_LENS_USD_DECIMALS = BigDecimal.fromString("1e6");
 
-export const WAVAX_ADDRESS = Address.fromString('0x82aF49447D8a07e3bd95BD0d56f35241523fBab1');
+export const WAVAX_ADDRESS = Address.fromString('0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7');
+
+export const TRACE_TYPE_SWAP = "SWAP";
+export const TRACE_TYPE_LIQUIDITY_ADDED = "LIQUIDITY_ADDED";
+export const TRACE_TYPE_LIQUIDITY_REMOVED = "LIQUIDITY_REMOVED";
+export const TRACE_TYPE_TRANSFER_BATCH = "TRANSFER_BATCH";
+export const TRACE_TYPE_COMPOSITION_FEE = "COMPOSITION_FEE";
+export const TRACE_TYPE_FLASHLOAN = "FLASHLOAN";

@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: LBFactory
-    network: {{ network }}
+    network: avalanche
     source:
-      address: "{{ lbfactory_address }}"
+      address: "0x8e42f2F4101563bF679975178e880FD87d3eFd4e"
       abi: LBFactory
-      startBlock: {{ start_block }}
+      startBlock: 28371397
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -39,10 +39,10 @@ dataSources:
 
   - kind: ethereum/contract
     name: LBPair
-    network: {{ network }}
+    network: avalanche
     source:
       abi: LBPair
-      startBlock: {{ start_block }}
+      startBlock: 28371397
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -72,6 +72,4 @@ dataSources:
           handler: handleTransferBatch
         - event: CompositionFees(indexed address,uint24,bytes32,bytes32)
           handler: handleCompositionFee
-        - event: FlashLoan(indexed address,indexed address,uint24,bytes32,bytes32,bytes32)
-          handler: handleFlashLoan
       file: ./src/lbPair.ts
