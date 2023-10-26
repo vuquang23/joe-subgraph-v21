@@ -6,13 +6,15 @@ export function loadTrace(
     txHash: Bytes, 
     eventID: BigInt, 
     t: number, 
-    lbPairID: string
+    lbPairID: string,
+    type: string
 ): Trace {
     const id = txHash.toHex().concat("#").concat(eventID.toString()).concat("#").concat(t.toString());
     let trace = Trace.load(id);
 
     if (!trace) {
         trace = new Trace(id);
+        trace.type = type;
         trace.txHash = txHash;
         trace.lbPair = lbPairID;
         trace.amountXIn = BIG_DECIMAL_ZERO;

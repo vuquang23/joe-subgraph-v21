@@ -58,6 +58,8 @@ type Bin @entity {
 type Trace @entity {
   id: ID!
 
+  type: String!
+
   txHash: Bytes!
 
   lbPair: String!

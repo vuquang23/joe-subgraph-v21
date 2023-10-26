@@ -5,3 +5,4 @@ build/
 graph_data/
 .yarn
 tests/.bin
+*.local.*

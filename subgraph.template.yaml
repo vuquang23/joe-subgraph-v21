@@ -72,4 +72,6 @@ dataSources:
           handler: handleTransferBatch
         - event: CompositionFees(indexed address,uint24,bytes32,bytes32)
           handler: handleCompositionFee
+        - event: FlashLoan(indexed address,indexed address,uint24,bytes32,bytes32,bytes32)
+          handler: handleFlashLoan
       file: ./src/lbPair.ts

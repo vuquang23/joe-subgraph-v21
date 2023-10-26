@@ -2,6 +2,7 @@ import { Address, BigDecimal, BigInt, log } from "@graphprotocol/graph-ts";
 import {
   CompositionFees,
   DepositedToBins,
+  FlashLoan,
   Swap as SwapEvent,
   TransferBatch,
   WithdrawnFromBins
@@ -13,7 +14,13 @@ import {
   ADDRESS_ZERO,
   BIG_DECIMAL_ZERO,
   BIG_INT_ONE,
-  BIG_INT_ZERO
+  BIG_INT_ZERO,
+  TRACE_TYPE_COMPOSITION_FEE,
+  TRACE_TYPE_FLASHLOAN,
+  TRACE_TYPE_LIQUIDITY_ADDED,
+  TRACE_TYPE_LIQUIDITY_REMOVED,
+  TRACE_TYPE_SWAP,
+  TRACE_TYPE_TRANSFER_BATCH
 } from "./constants";
 import {
   loadLBFactory,
@@ -106,7 +113,13 @@ export function handleSwap(event: SwapEvent): void {
   tokenY.save();
 
   // Trace
-  const trace = loadTrace(event.transaction.hash, event.logIndex, 0, lbPair.id);
+  const trace = loadTrace(
+    event.transaction.hash, 
+    event.logIndex, 
+    0, 
+    lbPair.id, 
+    TRACE_TYPE_SWAP
+  );
   trace.lbPair = lbPair.id;
   trace.binId = BigInt.fromI32(event.params.id);
   trace.amountXIn = amountXIn;
@@ -148,7 +161,13 @@ export function handleCompositionFee(event: CompositionFees): void {
     BIG_INT_ZERO
   );
 
-  const trace = loadTrace(event.transaction.hash, event.logIndex, 0, lbPair.id);
+  const trace = loadTrace(
+    event.transaction.hash, 
+    event.logIndex, 
+    0, 
+    lbPair.id,
+    TRACE_TYPE_COMPOSITION_FEE
+  );
   trace.lbPair = lbPair.id;
   trace.binId = BigInt.fromI32(event.params.id);
   trace.amountXIn = BIG_DECIMAL_ZERO;
@@ -199,7 +218,13 @@ export function handleLiquidityAdded(event: DepositedToBins): void {
       BIG_INT_ZERO
     );
 
-    const trace = loadTrace(event.transaction.hash, event.logIndex, i, lbPair.id);
+    const trace = loadTrace(
+      event.transaction.hash, 
+      event.logIndex, 
+      i, 
+      lbPair.id,
+      TRACE_TYPE_LIQUIDITY_ADDED
+    );
     trace.lbPair = lbPair.id;
     trace.binId = binId;
     trace.amountXIn = amountX;
@@ -261,7 +286,13 @@ export function handleLiquidityRemoved(event: WithdrawnFromBins): void {
       BIG_INT_ZERO
     );
 
-    const trace = loadTrace(event.transaction.hash, event.logIndex, i, lbPair.id);
+    const trace = loadTrace(
+      event.transaction.hash, 
+      event.logIndex, 
+      i, 
+      lbPair.id,
+      TRACE_TYPE_LIQUIDITY_REMOVED
+    );
     trace.lbPair = lbPair.id;
     trace.binId = binId;
     trace.amountXIn = BIG_DECIMAL_ZERO;
@@ -315,7 +346,13 @@ export function handleTransferBatch(event: TransferBatch): void {
         BIG_INT_ZERO
       );
 
-      const trace = loadTrace(event.transaction.hash, event.logIndex, i, lbPair.id);
+      const trace = loadTrace(
+        event.transaction.hash, 
+        event.logIndex, 
+        i, 
+        lbPair.id,
+        TRACE_TYPE_TRANSFER_BATCH
+      );
       trace.lbPair = lbPair.id;
       trace.binId = event.params.ids[i];
       trace.amountXIn = BIG_DECIMAL_ZERO;
@@ -340,7 +377,13 @@ export function handleTransferBatch(event: TransferBatch): void {
         event.params.amounts[i] // burned
       );
 
-      const trace = loadTrace(event.transaction.hash, event.logIndex, i, lbPair.id);
+      const trace = loadTrace(
+        event.transaction.hash, 
+        event.logIndex, 
+        i, 
+        lbPair.id,
+        TRACE_TYPE_TRANSFER_BATCH
+      );
       trace.lbPair = lbPair.id;
       trace.binId = event.params.ids[i];
       trace.amountXIn = BIG_DECIMAL_ZERO;
@@ -352,4 +395,54 @@ export function handleTransferBatch(event: TransferBatch): void {
       trace.save();
     }
   }
+}
+
+export function handleFlashLoan(event: FlashLoan): void {
+  const lbPair = loadLbPair(event.address);
+  if (!lbPair) {
+    return;
+  }
+  lbPair.save();
+
+  const tokenX = loadToken(Address.fromString(lbPair.tokenX));
+  const tokenY = loadToken(Address.fromString(lbPair.tokenY));
+
+  const totalFees = decodeAmounts(event.params.totalFees);
+  const protocolFees = decodeAmounts(event.params.protocolFees);
+
+  const totalFeesX = formatTokenAmountByDecimals(totalFees[0], tokenX.decimals);
+  const totalFeesY = formatTokenAmountByDecimals(totalFees[1], tokenY.decimals);
+
+  const protocolFeesX = formatTokenAmountByDecimals(protocolFees[0], tokenX.decimals);
+  const protocolFeesY = formatTokenAmountByDecimals(protocolFees[1], tokenY.decimals);
+
+  const activeIdBI = BigInt.fromI32(event.params.activeId);
+
+  trackBin(
+    lbPair,
+    activeIdBI,
+    totalFeesX,
+    protocolFeesX,
+    totalFeesY,
+    protocolFeesY,
+    BIG_INT_ZERO,
+    BIG_INT_ZERO
+  );
+
+  const trace = loadTrace(
+    event.transaction.hash, 
+    event.logIndex, 
+    0, 
+    lbPair.id,
+    TRACE_TYPE_FLASHLOAN
+  );
+  trace.lbPair = lbPair.id;
+  trace.binId = activeIdBI;
+  trace.amountXIn = totalFeesX;
+  trace.amountXOut = protocolFeesX;
+  trace.amountYIn = totalFeesY;
+  trace.amountYOut = protocolFeesY;
+  trace.minted = BIG_INT_ZERO;
+  trace.burned = BIG_INT_ZERO;
+  trace.save();
 }
