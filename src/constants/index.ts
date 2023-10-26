@@ -17,13 +17,13 @@ export const BIG_INT_ZERO = BigInt.fromI32(0);
 export const NULL_CALL_RESULT_VALUE =
   "0x0000000000000000000000000000000000000000000000000000000000000001";
 
-export const LBFACTORY_ADDRESS = Address.fromString('0x8e42f2F4101563bF679975178e880FD87d3eFd4e');
+export const LBFACTORY_ADDRESS = Address.fromString('0xDC8d77b69155c7E68A95a4fb0f06a71FF90B943a');
 
-export const JOE_DEX_LENS_ADDRESS = Address.fromString('0x0A5077D8dc51e27Ad536847b0CF558165BA9AD1b');
+export const JOE_DEX_LENS_ADDRESS = Address.fromString('');
 
-export const JOE_DEX_LENS_USD_DECIMALS = BigDecimal.fromString("1e18");
+export const JOE_DEX_LENS_USD_DECIMALS = BigDecimal.fromString("1e0");
 
-export const WAVAX_ADDRESS = Address.fromString('0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c');
+export const WAVAX_ADDRESS = Address.fromString('0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2');
 
 export const TRACE_TYPE_SWAP = "SWAP";
 export const TRACE_TYPE_LIQUIDITY_ADDED = "LIQUIDITY_ADDED";
