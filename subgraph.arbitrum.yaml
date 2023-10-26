@@ -19,7 +19,6 @@ dataSources:
         - LBFactory
         - LBPair
         - Token
-        - Bundle
       abis:
         - name: LBFactory
           file: ./abis/LBFactory.json
@@ -49,15 +48,10 @@ dataSources:
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - Bundle
         - Bin
         - LBFactory
         - LBPair
         - Token
-        - Transaction
-        - Mint
-        - Burn
-        - Swap
       abis:
         - name: LBFactory
           file: ./abis/LBFactory.json
@@ -76,4 +70,8 @@ dataSources:
           handler: handleLiquidityRemoved
         - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
           handler: handleTransferBatch
+        - event: CompositionFees(indexed address,uint24,bytes32,bytes32)
+          handler: handleCompositionFee
+        - event: FlashLoan(indexed address,indexed address,uint24,bytes32,bytes32,bytes32)
+          handler: handleFlashLoan
       file: ./src/lbPair.ts

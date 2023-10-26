@@ -24,3 +24,10 @@ export const JOE_DEX_LENS_ADDRESS = Address.fromString('{{ joe_dex_lens_address 
 export const JOE_DEX_LENS_USD_DECIMALS = BigDecimal.fromString("1e{{ joe_dex_lens_usd_decimals }}");
 
 export const WAVAX_ADDRESS = Address.fromString('{{ wavax_address }}');
+
+export const TRACE_TYPE_SWAP = "SWAP";
+export const TRACE_TYPE_LIQUIDITY_ADDED = "LIQUIDITY_ADDED";
+export const TRACE_TYPE_LIQUIDITY_REMOVED = "LIQUIDITY_REMOVED";
+export const TRACE_TYPE_TRANSFER_BATCH = "TRANSFER_BATCH";
+export const TRACE_TYPE_COMPOSITION_FEE = "COMPOSITION_FEE";
+export const TRACE_TYPE_FLASHLOAN = "FLASHLOAN";
