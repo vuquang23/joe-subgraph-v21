@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "create-kyber-subgraph-arbitrum": "graph create kybernetwork/traderjoe-v21-arbitrum --node https://arbitrum-graph.kyberengineering.io/admin",
     "prepare:avax": "mustache config/avax.json src/constants/index.template.ts > src/constants/index.ts && mustache config/avax.json subgraph.template.yaml > subgraph.avax.yaml",
     "prepare:fuji": "mustache config/fuji.json src/constants/index.template.ts > src/constants/index.ts && mustache config/fuji.json subgraph.template.yaml > subgraph.fuji.yaml",
     "prepare:arbgoerli": "mustache config/arbgoerli.json src/constants/index.template.ts > src/constants/index.ts && mustache config/arbgoerli.json subgraph.template.yaml > subgraph.arbgoerli.yaml",
@@ -32,6 +33,7 @@
     "deploy:bsc": "graph deploy --node https://api.thegraph.com/deploy/ vuquang23/traderjoe-v21-bsc subgraph.bsc.yaml",
     "deploy:chapel": "graph deploy --node https://api.thegraph.com/deploy/ traderjoe-xyz/joe-v2-bnbtest subgraph.chapel.yaml",
     "deploy:ethereum": "graph deploy --node https://api.thegraph.com/deploy/ vuquang23/traderjoe-v21-ethereum subgraph.ethereum.yaml",
+    "deploy:kyber:arbitrum": "graph deploy kybernetwork/traderjoe-v21-arbitrum --version-label v0.0.1 --ipfs https://arbitrum-graph.kyberengineering.io/ipfs --node https://arbitrum-graph.kyberengineering.io/admin subgraph.arbitrum.yaml",
     "create-local": "graph create --node http://localhost:8020/ traderjoe-xyz/joe-v2-fuji",
     "remove-local": "graph remove --node http://localhost:8020/ traderjoe-xyz/joe-v2-fuji",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 traderjoe-xyz/joe-v2-fuji",
