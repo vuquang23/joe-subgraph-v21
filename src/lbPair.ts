@@ -1,6 +1,5 @@
 import { Address, BigDecimal, BigInt, log } from "@graphprotocol/graph-ts";
 import {
-  CompositionFees,
   DepositedToBins,
   FlashLoan,
   Swap as SwapEvent,
@@ -15,7 +14,6 @@ import {
   BIG_DECIMAL_ZERO,
   BIG_INT_ONE,
   BIG_INT_ZERO,
-  TRACE_TYPE_COMPOSITION_FEE,
   TRACE_TYPE_FLASHLOAN,
   TRACE_TYPE_LIQUIDITY_ADDED,
   TRACE_TYPE_LIQUIDITY_REMOVED,
@@ -121,49 +119,6 @@ export function handleSwap(event: SwapEvent): void {
   trace.amountXOut = amountXOut;
   trace.amountYIn = amountYIn;
   trace.amountYOut = amountYOut;
-  trace.minted = BIG_INT_ZERO;
-  trace.burned = BIG_INT_ZERO;
-  trace.save();
-}
-
-export function handleCompositionFee(event: CompositionFees): void {
-  const lbPair = loadLbPair(event.address);
-  if (!lbPair) {
-    return;
-  }
-
-  const tokenX = loadToken(Address.fromString(lbPair.tokenX));
-  const tokenY = loadToken(Address.fromString(lbPair.tokenY));
-
-  const protocolCFees = decodeAmounts(event.params.protocolFees);
-  const protocolCFeesX = formatTokenAmountByDecimals(
-    protocolCFees[0],
-    tokenX.decimals
-  );
-  const protocolCFeesY = formatTokenAmountByDecimals(
-    protocolCFees[1],
-    tokenY.decimals
-  );
-
-  trackBin(
-    lbPair,
-    BigInt.fromI32(event.params.id),
-    BIG_DECIMAL_ZERO,
-    protocolCFeesX,
-    BIG_DECIMAL_ZERO,
-    protocolCFeesY,
-    BIG_INT_ZERO,
-    BIG_INT_ZERO
-  );
-
-  const trace = loadTrace(event.transaction.hash, event.logIndex, 0);
-  trace.type = TRACE_TYPE_COMPOSITION_FEE;
-  trace.lbPair = lbPair.id;
-  trace.binId = BigInt.fromI32(event.params.id);
-  trace.amountXIn = BIG_DECIMAL_ZERO;
-  trace.amountXOut = protocolCFeesX;
-  trace.amountYIn = BIG_DECIMAL_ZERO;
-  trace.amountYOut = protocolCFeesY;
   trace.minted = BIG_INT_ZERO;
   trace.burned = BIG_INT_ZERO;
   trace.save();
