@@ -19,12 +19,6 @@ export const NULL_CALL_RESULT_VALUE =
 
 export const LBFACTORY_ADDRESS = Address.fromString('0xDC8d77b69155c7E68A95a4fb0f06a71FF90B943a');
 
-export const JOE_DEX_LENS_ADDRESS = Address.fromString('');
-
-export const JOE_DEX_LENS_USD_DECIMALS = BigDecimal.fromString("1e0");
-
-export const WAVAX_ADDRESS = Address.fromString('0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2');
-
 export const TRACE_TYPE_SWAP = "SWAP";
 export const TRACE_TYPE_LIQUIDITY_ADDED = "LIQUIDITY_ADDED";
 export const TRACE_TYPE_LIQUIDITY_REMOVED = "LIQUIDITY_REMOVED";
